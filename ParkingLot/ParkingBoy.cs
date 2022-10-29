@@ -25,7 +25,7 @@ public class ParkingBoy
         managedFloors.Add(parkingFloor);
     }
 
-    public Car retriveCar(Ticket ticket)
+    public Car RetriveCar(Ticket ticket)
     {
         var parkingFloor = managedFloors.Find(floor => floor.FloorName == ticket.FloorName);
         Car car = parkingFloor.retriveCar(ticket);

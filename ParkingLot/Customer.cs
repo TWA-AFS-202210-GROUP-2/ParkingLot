@@ -1,24 +1,35 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ParkingLot;
 
 public class Customer
 {
+    private List<Ticket> myTicket = new List<Ticket>();
     public Customer(string name)
     {
         CustomerName = name;
     }
 
-    public Ticket MyTicket { get; set; }
     public string CustomerName { get; }
 
     public string ParkCar(Car car, ParkingBoy parkingBoy)
     {
-        MyTicket = parkingBoy.ParkCar(car);
-        return $"customer {CustomerName} received ticket: {MyTicket.Location} {MyTicket.FloorName}";
+        Ticket receivedTicket = parkingBoy.ParkCar(car);
+        myTicket.Add(receivedTicket);
+        return $"customer {CustomerName} received ticket: {receivedTicket.Location} {receivedTicket.FloorName}";
     }
 
-    public Car RetriveCar(ParkingBoy parkingBoy)
+    public List<Car> RetriveCar(ParkingBoy parkingBoy)
     {
-        Car mycar = parkingBoy.retriveCar(MyTicket);
-        return mycar;
+        var cars = myTicket.Select(item => parkingBoy.RetriveCar(item)).ToList();
+        myTicket.Clear();
+        return cars;
+    }
+
+    public string ParkCar(List<Car> carList, ParkingBoy parkingBoy)
+    {
+        carList.ForEach(item => ParkCar(item,parkingBoy));
+        return "ok";
     }
 }

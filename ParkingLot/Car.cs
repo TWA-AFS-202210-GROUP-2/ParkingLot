@@ -2,7 +2,6 @@ namespace ParkingLot;
 
 public class Car
 {
-
     public Car(string car)
     {
         CarName = car;

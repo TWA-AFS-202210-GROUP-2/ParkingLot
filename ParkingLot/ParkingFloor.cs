@@ -17,13 +17,10 @@ public class ParkingFloor
 
     public int FloorCapacity { get; }
     public string FloorName { get; }
-  
-
     public Ticket ParkCar(Car car)
     {
         Tuple<Car, int> newTicket = new Tuple<Car, int>(car, assignLocation());
         CarList.Add(newTicket);
-        
         return new Ticket(newTicket.Item2, this.FloorName);
     }
 
@@ -34,12 +31,14 @@ public class ParkingFloor
         {
             throw new Exception("not enough capacity");
         }
+
         return newId;
     }
 
     public Car retriveCar(Ticket ticket)
     {
         Car target = CarList.Find(item => item.Item2 == ticket.Location).Item1;
+        CarList.Remove(CarList.Find(item => item.Item2 == ticket.Location));
         return target;
     }
 }
