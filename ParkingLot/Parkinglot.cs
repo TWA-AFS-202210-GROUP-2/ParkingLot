@@ -8,11 +8,11 @@ namespace ParkingLot
 {
     public class Parkinglot
     {
-        private string v;
+        private string name;
 
-        public Parkinglot(string v)
+        public Parkinglot(string name)
         {
-            this.v = v;
+            this.name = name;
         }
     }
 }

@@ -17,9 +17,14 @@ namespace ParkingLot
             this.parkinglot = parkinglot;
         }
 
-        public ParkingTIcket ParkingCar(Car car)
+        public ParkingTicket ParkCar(Car car)
         {
-            return new ParkingTIcket();
+            return new ParkingTicket();
+        }
+
+        public Car GetCar(ParkingTicket ticket)
+        {
+            return new Car("a");
         }
     }
 }

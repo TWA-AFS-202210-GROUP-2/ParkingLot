@@ -17,9 +17,21 @@ namespace ParkingLotTest
             var parkingboy = new ParkingBoy("Jacky", parkinglot);
             var car = new Car("JJAA8888");
 
-            var ticket = parkingboy.ParkingCar(car);
+            var ticket = parkingboy.ParkCar(car);
 
-            Assert.IsType<ParkingTIcket>(ticket);
+            Assert.IsType<ParkingTicket>(ticket);
+        }
+
+        [Fact]
+        public void Should_return_a_car_when_get_car_given_a_ticket()
+        {
+            var parkinglot = new Parkinglot("Parkinglot1");
+            var parkingboy = new ParkingBoy("Jacky", parkinglot);
+            var car = new Car("JJAA8888");
+
+            var ticket = parkingboy.ParkCar(car);
+            var carGet = parkingboy.GetCar(ticket);
+            Assert.IsType<Car>(carGet);
         }
     }
 }

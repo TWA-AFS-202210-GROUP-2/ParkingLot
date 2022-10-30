@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParkingLot
 {
-    public class ParkingTIcket
+    public class ParkingTicket
     {
 
     }
