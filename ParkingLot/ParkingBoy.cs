@@ -29,7 +29,20 @@
                 return null;
             }
 
-            return managerParkingLots[0].CarOut(ticket);
+            if (ticket.GetIsUsed())
+            {
+                return null;
+            }
+
+            Car fetchCar = managerParkingLots[0].CarOut(ticket);
+            if (fetchCar != null)
+            {
+                ticket.UseTIcket();
+            }
+
+            UpdateProvidedParkingTickets(ticket);
+
+            return fetchCar;
         }
 
         public List<ParkingTicket> ParkCars(List<Car> cars)
@@ -56,7 +69,7 @@
 
         private void UpdateProvidedParkingTickets(ParkingTicket parkingTicket)
         {
-            this.providedParkingTickets.Add(parkingTicket.GetCarNumber(), parkingTicket);
+            this.providedParkingTickets.TryAdd(parkingTicket.GetCarNumber(), parkingTicket);
         }
 
         private bool IsProvidedParkingTicket(ParkingTicket parkingTicket)
