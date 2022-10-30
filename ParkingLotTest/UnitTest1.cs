@@ -74,7 +74,44 @@ namespace ParkingLotTest
             WrongTicketExcption exception = Assert.Throws<WrongTicketExcption>(() => customer.RetriveCar(parkingBoy));
             //then
             Assert.Equal("no such ticket", exception.Message);
+        }
+        [Fact]
+        public void Should_return_no_car_when_customer_retrive_car_given_parkingboy_used_ticket()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor = new ParkingFloor(30, name: "floor1");
+            var parkingBoy = new ParkingBoy("Boy");
 
+            parkingBoy.AddParkingFloor(parkingFloor);
+            customer.ParkCar(new Car("car 1"),parkingBoy);
+            var cars = customer.RetriveCar(parkingBoy);
+            var fakeTicket = new Ticket(1, "floor1");
+            customer.AddTicket(fakeTicket);
+            //when
+
+            WrongTicketExcption exception = Assert.Throws<WrongTicketExcption>(() => customer.RetriveCar(parkingBoy));
+            //then
+            Assert.Equal("no such ticket", exception.Message);
+        }
+        [Fact]
+        public void Should_return_no_space_when_customer_park_car_given_parkingboy_no_space()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor = new ParkingFloor(2, name: "floor1");
+            var parkingBoy = new ParkingBoy("Boy");
+            List<Car> carList = new List<Car>();
+            carList.Add(new Car("car1"));
+            carList.Add(new Car("car2"));
+            carList.Add(new Car("car3"));
+            parkingBoy.AddParkingFloor(parkingFloor);
+
+            //when
+            
+            NotEnoughCapacityException exception = Assert.Throws<NotEnoughCapacityException>(() => customer.ParkCar(carList, parkingBoy));
+            //then
+            Assert.Equal("not enough capacity", exception.Message);
         }
     }
 }

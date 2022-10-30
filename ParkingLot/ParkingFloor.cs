@@ -29,7 +29,7 @@ public class ParkingFloor
         int newId = CarList.Last().Item2 + 1;
         if (CarList.Count >= this.FloorCapacity)
         {
-            throw new Exception("not enough capacity");
+            throw new NotEnoughCapacityException("not enough capacity");
         }
 
         return newId;
@@ -37,15 +37,13 @@ public class ParkingFloor
 
     public Car retriveCar(Ticket ticket)
     {
-        try
+        if (!CarList.Exists(item => item.Item2 == ticket.Location))
         {
-            Car target = CarList.Find(item => item.Item2 == ticket.Location).Item1;
-            CarList.Remove(CarList.Find(item => item.Item2 == ticket.Location));
-            return target;
+            throw new WrongTicketExcption("no such ticket");
         }
-        catch (WrongTicketExcption e)
-        {
-            throw e;
-        }
+
+        Car target = CarList.Find(item => item.Item2 == ticket.Location).Item1;
+        CarList.Remove(CarList.Find(item => item.Item2 == ticket.Location));
+        return target;
     }
 }

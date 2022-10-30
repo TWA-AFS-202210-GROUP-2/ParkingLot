@@ -17,8 +17,16 @@ public class ParkingBoy
     public string Name { get; }
     public Ticket ParkCar(Car car)
     {
-        Ticket ticket = managedFloors[0].ParkCar(car);
-        return ticket;
+        try
+        {
+            Ticket ticket = managedFloors[0].ParkCar(car);
+            return ticket;
+        }
+        catch(NotEnoughCapacityException e)
+        {
+            throw e;
+        }
+        
     }
 
     public void AddParkingFloor(ParkingFloor parkingFloor)
