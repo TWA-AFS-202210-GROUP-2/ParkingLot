@@ -36,6 +36,10 @@ public class ParkingBoy
 
     public Car RetriveCar(Ticket ticket)
     {
+        if (ticket == null)
+        {
+            throw new NoTicketExcption("Please provide your parking ticket.");
+        }
         if (!managedFloors.Exists(floor => floor.FloorName == ticket.FloorName))
         {
             throw new WrongTicketExcption("no such ticket");

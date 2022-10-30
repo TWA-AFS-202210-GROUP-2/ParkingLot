@@ -113,5 +113,38 @@ namespace ParkingLotTest
             //then
             Assert.Equal("not enough capacity", exception.Message);
         }
+        [Fact]
+        public void Should_return_not_recognize_when_customer_retrive_car_given_parkingboy_invalid_ticket()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor = new ParkingFloor(30, name: "floor1");
+            var parkingBoy = new ParkingBoy("Boy");
+
+            parkingBoy.AddParkingFloor(parkingFloor);
+            customer.ParkCar(new Car("car 1"), parkingBoy);
+            var cars = customer.RetriveCar(parkingBoy);
+            var fakeTicket = new Ticket(1, "floor1");
+            customer.AddTicket(fakeTicket);
+            //when
+            
+            WrongTicketExcption exception = Assert.Throws<WrongTicketExcption>(() => customer.RetriveCar(parkingBoy));
+            //then
+            Assert.Equal("no such ticket", exception.Message);
+        }
+        [Fact]
+        public void Should_return_pls_provide_ticket_when_customer_retrive_car_given_parkingboy_no_ticket()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor = new ParkingFloor(30, name: "floor1");
+            var parkingBoy = new ParkingBoy("Boy");
+
+            parkingBoy.AddParkingFloor(parkingFloor);
+            //when
+            NoTicketExcption exception = Assert.Throws<NoTicketExcption>(() => customer.RetriveCar(parkingBoy));
+            //then
+            Assert.Equal("Please provide your parking ticket.", exception.Message);
+        }
     }
 }

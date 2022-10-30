@@ -22,6 +22,10 @@ public class Customer
 
     public List<Car> RetriveCar(ParkingBoy parkingBoy)
     {
+        if (myTicket.Count == 0)
+        {
+            parkingBoy.RetriveCar(null);
+        }
         var cars = myTicket.Select(item => parkingBoy.RetriveCar(item)).ToList();
         myTicket.Clear();
         return cars;
