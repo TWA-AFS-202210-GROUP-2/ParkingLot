@@ -5,6 +5,7 @@
 
     public class ParkingLot_
     {
+        private readonly string noPositionMessage = "Not enough position.";
         private string parkingLotName;
         private Dictionary<string, Car> cars = new Dictionary<string, Car>();
         private int capacity;
@@ -17,8 +18,10 @@
 
         public ParkingTicket CarIn(Car car)
         {
+            Printer printer = new Printer();
             if (!HasPosition())
             {
+                printer.PrintMessage(noPositionMessage);
                 return null;
             }
 

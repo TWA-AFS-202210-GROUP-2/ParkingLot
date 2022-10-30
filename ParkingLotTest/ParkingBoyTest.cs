@@ -120,5 +120,21 @@ namespace ParkingLotTest
             //then
             Assert.Null(returnCar2);
         }
+
+        /*[Fact]
+        public void Should_console_response_message_when_parkingBoy_fetch_car_given_wrong_ticket()
+        {
+            //given
+            Car car = new Car("J123456");
+            ParkingLot_ parkingLot_ = new ParkingLot_("parkingLot 1");
+            ParkingBoy parkingBoy = new ParkingBoy("Jim", parkingLot_);
+            var ticket = new ParkingTicket("J654321", parkingLot_);
+
+            //when
+            parkingBoy.FetchCar(ticket);
+
+            //then
+            //how to test console message??
+        }*/
     }
 }

@@ -5,6 +5,8 @@
 
     public class ParkingBoy
     {
+        private readonly string wrongTicketMessage = "Unrecognized parking ticket.";
+        private readonly string nullTicketMessage = "Please provide your parking ticket.";
         private string name;
         private List<ParkingLot_> managerParkingLots = new ();
         private Dictionary<string, ParkingTicket> providedParkingTickets = new Dictionary<string, ParkingTicket>();
@@ -29,13 +31,16 @@
 
         public Car FetchCar(ParkingTicket ticket)
         {
-            if (ticket == null || !IsProvidedParkingTicket(ticket))
+            Printer printer = new Printer();
+            if (ticket == null)
             {
+                printer.PrintMessage(nullTicketMessage);
                 return null;
             }
 
-            if (ticket.GetIsUsed())
+            if (ticket.GetIsUsed() || !IsProvidedParkingTicket(ticket))
             {
+                printer.PrintMessage(wrongTicketMessage);
                 return null;
             }
 
