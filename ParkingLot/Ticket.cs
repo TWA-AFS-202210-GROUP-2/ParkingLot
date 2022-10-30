@@ -11,11 +11,13 @@ namespace ParkingLot
     {
         private string id;
         private string carId;
+        private string parkingLotName;
 
-        public Ticket(ParkingLots parkingLotName, Car car)
+        public Ticket(ParkingLots parkingLot, Car car)
         {
-            this.id = parkingLotName.ParkingLotName + $": {car.CarId}";
+            this.id = parkingLot.ParkingLotName + $": {car.CarId}";
             this.carId = car.CarId;
+            this.parkingLotName = parkingLot.ParkingLotName;
         }
 
         public string Id
@@ -26,6 +28,11 @@ namespace ParkingLot
         public string CarId
         {
             get { return carId; }
+        }
+
+        public string ParkingLotName
+        {
+            get { return parkingLotName; }
         }
     }
 }

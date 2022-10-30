@@ -15,7 +15,7 @@ namespace ParkingLotTest
         public void Should_return_parking_ticket_when_parking_given_customer_car()
         {
             //given
-            ParkingLots parkingLot = new ParkingLots("ParkingLot1");
+            ParkingLots parkingLot = new ParkingLots("ParkingLot1", 10);
             ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
             Customer customer = new Customer("jack", "key");
             Car car = new Car(customer, "car1");
@@ -29,7 +29,7 @@ namespace ParkingLotTest
         public void Should_return_car_when_customer_fetch_car_given_parking_ticket()
         {
             //given
-            ParkingLots parkingLot = new ParkingLots("ParkingLot1");
+            ParkingLots parkingLot = new ParkingLots("ParkingLot1", 10);
             ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
             Customer customer = new Customer("jack", "key");
             Car car = new Car(customer, "car1", parkingLot.ParkingLotName);
@@ -44,7 +44,7 @@ namespace ParkingLotTest
         public void Should_return_no_car_when_customer_fetch_car_given_wrong_parking_ticket()
         {
             //given
-            ParkingLots parkingLot = new ParkingLots("ParkingLot1");
+            ParkingLots parkingLot = new ParkingLots("ParkingLot1", 10);
             ParkingBoy parkingBoy = new ParkingBoy(parkingLot);
             //when
             Action action = () => parkingBoy.FetchCar(null);

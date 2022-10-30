@@ -10,12 +10,12 @@ namespace ParkingLot
     {
         private ParkingLots parkingLot;
 
-        public ParkingBoy(ParkingLots parkingLots)
+        public ParkingBoy(ParkingLots parkingLot)
         {
-            this.parkingLot = parkingLots;
+            this.parkingLot = parkingLot;
         }
 
-        public Car FetchCar(Ticket ticket)
+        public virtual Car FetchCar(Ticket ticket)
         {
             if (ticket == null)
             {
@@ -25,7 +25,7 @@ namespace ParkingLot
             return this.parkingLot.GetCar(ticket);
         }
 
-        public Ticket ParkingCar(Car car)
+        public virtual Ticket ParkingCar(Car car)
         {
             return this.parkingLot.StorageCar(car);
         }

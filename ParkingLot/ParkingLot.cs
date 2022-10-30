@@ -12,22 +12,29 @@ namespace ParkingLot
         private List<Ticket> tickets;
         private string parkingLotName;
         private int capacity;
+        private double positionRate;
 
-        public ParkingLots(string parkingLotName, int capacity = 10)
+        public ParkingLots(string parkingLotName, int capacity)
         {
             this.parkingLotName = parkingLotName;
             this.capacity = capacity;
             cars = new List<Car>();
             tickets = new List<Ticket>();
+            this.positionRate = 1;
         }
 
         public string ParkingLotName { get; set; }
+        public int Capacity { get; set; }
+        public double PositionRate { get; set; }
+
         public Ticket StorageCar(Car car)
         {
-            if (tickets.Count > capacity)
+            if (capacity > 0)
             {
                 throw new Exception("Not enough position.");
             }
+
+            this.positionRate = 1 / (this.Capacity / this.capacity--);
 
             car.ParkingLotId = parkingLotName;
             cars.Add(car);
