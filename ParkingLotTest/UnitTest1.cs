@@ -70,8 +70,8 @@ namespace ParkingLotTest
             var fakeTicket = new Ticket(10000, "fake floor");
             customer.AddTicket(fakeTicket);
             //when
-            customer.RetriveCar(parkingBoy);
-            Exception exception = Assert.Throws<Exception>(() => customer.RetriveCar(parkingBoy));
+         
+            WrongTicketExcption exception = Assert.Throws<WrongTicketExcption>(() => customer.RetriveCar(parkingBoy));
             //then
             Assert.Equal("no such ticket", exception.Message);
 

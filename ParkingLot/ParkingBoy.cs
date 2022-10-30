@@ -30,7 +30,7 @@ public class ParkingBoy
     {
         if (!managedFloors.Exists(floor => floor.FloorName == ticket.FloorName))
         {
-            throw new Exception("no such ticket");
+            throw new WrongTicketExcption("no such ticket");
         }
         var parkingFloor = managedFloors.Find(floor => floor.FloorName == ticket.FloorName);
         Car car = parkingFloor.retriveCar(ticket);

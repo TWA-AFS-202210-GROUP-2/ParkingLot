@@ -37,12 +37,15 @@ public class ParkingFloor
 
     public Car retriveCar(Ticket ticket)
     {
-        if (!CarList.Exists(item => item.Item2 == ticket.Location))
+        try
         {
-            throw new Exception("no such ticket");
+            Car target = CarList.Find(item => item.Item2 == ticket.Location).Item1;
+            CarList.Remove(CarList.Find(item => item.Item2 == ticket.Location));
+            return target;
         }
-        Car target = CarList.Find(item => item.Item2 == ticket.Location).Item1;
-        CarList.Remove(CarList.Find(item => item.Item2 == ticket.Location));
-        return target;
+        catch (WrongTicketExcption e)
+        {
+            throw e;
+        }
     }
 }
