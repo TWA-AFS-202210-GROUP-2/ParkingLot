@@ -11,5 +11,10 @@
             this.carNumber = carNumber;
             this.parkingLot = parkingLot;
         }
+
+        public string GetCarNumber()
+        {
+            return carNumber;
+        }
     }
 }

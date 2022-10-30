@@ -14,6 +14,11 @@
             managerParkingLots.Add(parkingLot_);
         }
 
+        public Car FetchCar(ParkingTicket ticket)
+        {
+            return managerParkingLots[0].CarOut(ticket);
+        }
+
         public ParkingTicket ParkCar(Car car)
         {
             return managerParkingLots[0].CarIn(car);
