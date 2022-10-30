@@ -41,4 +41,9 @@ public class Customer
     {
         myTicket.Add(fakeTicket);
     }
+
+    public List<Ticket> GetTickets()
+    {
+        return myTicket;
+    }
 }

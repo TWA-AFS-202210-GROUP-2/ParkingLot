@@ -146,5 +146,27 @@ namespace ParkingLotTest
             //then
             Assert.Equal("Please provide your parking ticket.", exception.Message);
         }
+        [Fact]
+        public void Should_return_park_to_second_parkinglot_when_customer_park_car_given_parkingboy_two_parking_lot_and_first_is_full()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor1 = new ParkingFloor(2, name: "floor1");
+            var parkingFloor2 = new ParkingFloor(30, name: "floor2");
+            var parkingBoy = new ParkingBoy("Boy");
+            parkingBoy.AddParkingFloor(parkingFloor1);
+            parkingBoy.AddParkingFloor(parkingFloor2);
+            List<Car> carList = new List<Car>();
+            carList.Add(new Car("car1"));
+            carList.Add(new Car("car2"));
+            carList.Add(new Car("car3"));
+            
+            //when
+            customer.ParkCar(carList, parkingBoy);
+            List<Ticket> myTickets = customer.GetTickets();
+
+            //then
+            Assert.Equal("floor2", myTickets.Last().FloorName);
+        }
     }
 }

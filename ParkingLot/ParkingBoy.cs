@@ -17,16 +17,15 @@ public class ParkingBoy
     public string Name { get; }
     public Ticket ParkCar(Car car)
     {
-        try
+        if (managedFloors.Exists((floor) => floor.GetRemainSlotsCount() > 0))
         {
-            Ticket ticket = managedFloors[0].ParkCar(car);
+            var ticket = managedFloors.Find((floor) => floor.GetRemainSlotsCount() > 0).ParkCar(car);
             return ticket;
         }
-        catch(NotEnoughCapacityException e)
+        else
         {
-            throw e;
+            throw new NotEnoughCapacityException("not enough capacity");
         }
-        
     }
 
     public void AddParkingFloor(ParkingFloor parkingFloor)
