@@ -8,24 +8,30 @@
         private readonly string wrongTicketMessage = "Unrecognized parking ticket.";
         private readonly string nullTicketMessage = "Please provide your parking ticket.";
         private string name;
-        private List<ParkingLot_> managerParkingLots = new ();
+        private List<ParkingLot_> managerParkingLots;
         private Dictionary<string, ParkingTicket> providedParkingTickets = new Dictionary<string, ParkingTicket>();
 
-        public ParkingBoy(string name, ParkingLot_ parkingLot_)
+        public ParkingBoy(string name, List<ParkingLot_> parkingLots)
         {
             this.name = name;
-            managerParkingLots.Add(parkingLot_);
+            this.managerParkingLots = parkingLots;
         }
 
         public ParkingTicket ParkCar(Car car)
         {
-            ParkingTicket parkingTicket = managerParkingLots[0].CarIn(car);
-            if (parkingTicket == null)
+            ParkingTicket parkingTicket = null;
+            foreach (var parkingLot in managerParkingLots)
             {
-                return null;
+                parkingTicket = parkingLot.CarIn(car);
+                if (parkingTicket == null)
+                {
+                    continue;
+                }
+
+                UpdateProvidedParkingTickets(parkingTicket);
+                break;
             }
 
-            UpdateProvidedParkingTickets(parkingTicket);
             return parkingTicket;
         }
 
@@ -44,7 +50,7 @@
                 return null;
             }
 
-            Car fetchCar = managerParkingLots[0].CarOut(ticket);
+            Car fetchCar = ticket.GetParkingLot().CarOut(ticket);
             if (fetchCar != null)
             {
                 ticket.UseTIcket();

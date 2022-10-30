@@ -27,5 +27,10 @@
         {
             isUsed = true;
         }
+
+        public ParkingLot_ GetParkingLot()
+        {
+            return parkingLot;
+        }
     }
 }

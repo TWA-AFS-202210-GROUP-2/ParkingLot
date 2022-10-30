@@ -45,5 +45,10 @@
         {
             return capacity > 0;
         }
+
+        public string GetParkingLotName()
+        {
+            return parkingLotName;
+        }
     }
 }
