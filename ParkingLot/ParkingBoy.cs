@@ -14,14 +14,36 @@
             managerParkingLots.Add(parkingLot_);
         }
 
+        public ParkingTicket ParkCar(Car car)
+        {
+            return managerParkingLots[0].CarIn(car);
+        }
+
         public Car FetchCar(ParkingTicket ticket)
         {
             return managerParkingLots[0].CarOut(ticket);
         }
 
-        public ParkingTicket ParkCar(Car car)
+        public List<ParkingTicket> ParkCars(List<Car> cars)
         {
-            return managerParkingLots[0].CarIn(car);
+            var tickets = new List<ParkingTicket>();
+            foreach (Car car in cars)
+            {
+                tickets.Add(ParkCar(car));
+            }
+
+            return tickets;
+        }
+
+        public List<Car> FetchCars(List<ParkingTicket> tickets)
+        {
+            var cars = new List<Car>();
+            foreach (ParkingTicket parkingTicket in tickets)
+            {
+                cars.Add(FetchCar(parkingTicket));
+            }
+
+            return cars;
         }
     }
 }
