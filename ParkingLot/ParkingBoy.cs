@@ -18,6 +18,11 @@
         public ParkingTicket ParkCar(Car car)
         {
             ParkingTicket parkingTicket = managerParkingLots[0].CarIn(car);
+            if (parkingTicket == null)
+            {
+                return null;
+            }
+
             UpdateProvidedParkingTickets(parkingTicket);
             return parkingTicket;
         }
