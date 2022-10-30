@@ -7,7 +7,7 @@ namespace ParkingLot;
 
 public class ParkingBoy
 {
-    private List<ParkingFloor> managedFloors = new List<ParkingFloor>();
+    protected List<ParkingFloor> managedFloors = new List<ParkingFloor>();
 
     public ParkingBoy(string name)
     {
@@ -15,7 +15,7 @@ public class ParkingBoy
     }
 
     public string Name { get; }
-    public Ticket ParkCar(Car car)
+    public virtual Ticket ParkCar(Car car)
     {
         if (managedFloors.Exists((floor) => floor.GetRemainSlotsCount() > 0))
         {
