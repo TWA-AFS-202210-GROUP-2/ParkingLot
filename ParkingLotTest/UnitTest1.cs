@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Moq;
 using Microsoft.VisualBasic;
 
 namespace ParkingLotTest
@@ -55,6 +56,25 @@ namespace ParkingLotTest
             Assert.Equal(exp1, act1);
             Assert.Equal(exp2, act2);
             Assert.Equal(exp3, act3);
+        }
+
+        [Fact]
+        public void Should_return_no_car_when_customer_retrive_car_given_parkingboy_outdated_ticket()
+        {
+            //given
+            var customer = new Customer("lucy");
+            var parkingFloor = new ParkingFloor(30, name: "floor1");
+            var parkingBoy = new ParkingBoy("Boy");
+            
+            parkingBoy.AddParkingFloor(parkingFloor);
+            var fakeTicket = new Ticket(10000, "fake floor");
+            customer.AddTicket(fakeTicket);
+            //when
+            customer.RetriveCar(parkingBoy);
+            Exception exception = Assert.Throws<Exception>(() => customer.RetriveCar(parkingBoy));
+            //then
+            Assert.Equal("no such ticket", exception.Message);
+
         }
     }
 }

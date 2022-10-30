@@ -32,4 +32,9 @@ public class Customer
         carList.ForEach(item => ParkCar(item,parkingBoy));
         return "ok";
     }
+
+    public void AddTicket(Ticket fakeTicket)
+    {
+        myTicket.Add(fakeTicket);
+    }
 }

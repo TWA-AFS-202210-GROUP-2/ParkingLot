@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -27,6 +28,10 @@ public class ParkingBoy
 
     public Car RetriveCar(Ticket ticket)
     {
+        if (!managedFloors.Exists(floor => floor.FloorName == ticket.FloorName))
+        {
+            throw new Exception("no such ticket");
+        }
         var parkingFloor = managedFloors.Find(floor => floor.FloorName == ticket.FloorName);
         Car car = parkingFloor.retriveCar(ticket);
         return car;
