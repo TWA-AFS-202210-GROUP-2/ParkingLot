@@ -50,5 +50,10 @@
         {
             return parkingLotName;
         }
+
+        public int GetCapacity()
+        {
+            return capacity;
+        }
     }
 }
