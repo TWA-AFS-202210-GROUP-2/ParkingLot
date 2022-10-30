@@ -23,7 +23,7 @@ namespace ParkingLotTest
         }
 
         [Fact]
-        public void Should_return_a_car_when_get_car_given_a_ticket()
+        public void Should_return_a_car_when_get_given_a_ticket()
         {
             var parkinglot = new Parkinglot("Parkinglot1");
             var parkingboy = new ParkingBoy("Jacky", parkinglot);
@@ -32,6 +32,21 @@ namespace ParkingLotTest
             var ticket = parkingboy.ParkCar(car);
             var carGet = parkingboy.GetCar(ticket);
             Assert.IsType<Car>(carGet);
+        }
+
+        [Fact]
+        public void Should_return_multiple_tickets_when_get_given_multiple_cars()
+        {
+            var parkinglot = new Parkinglot("Parkinglot1");
+            var parkingboy = new ParkingBoy("Jacky", parkinglot);
+            var cars1 = new List<Car> { new Car("JJAA82388"), new Car("JJA3344887") };
+            var cars = new List<Car> { new Car("JJAA8888"), new Car("JJAA8887") };
+            var car = new Car("JJAA8889");
+            var ticket = parkingboy.ParkCar(car);
+            var tickets1 = parkingboy.ParkMultipleCars(cars1);
+            var tickets = parkingboy.ParkMultipleCars(cars);
+            var carsGet = parkingboy.GetMultipleCars(tickets);
+            Assert.Equal(cars, carsGet);
         }
     }
 }

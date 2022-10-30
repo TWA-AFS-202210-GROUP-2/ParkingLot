@@ -19,12 +19,22 @@ namespace ParkingLot
 
         public ParkingTicket ParkCar(Car car)
         {
-            return new ParkingTicket();
+            return parkinglot.AddCar(car);
         }
 
         public Car GetCar(ParkingTicket ticket)
         {
-            return new Car("a");
+            return parkinglot.GetCar(ticket);
+        }
+
+        public List<Car> GetMultipleCars(List<ParkingTicket> tickets)
+        {
+            return parkinglot.GetCars(tickets);
+        }
+
+        public List<ParkingTicket> ParkMultipleCars(List<Car> cars)
+        {
+            return parkinglot.AddCars(cars);
         }
     }
 }

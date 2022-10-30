@@ -8,6 +8,20 @@ namespace ParkingLot
 {
     public class ParkingTicket
     {
+        private string ticketId;
+        private string carName;
 
+        public ParkingTicket(string carName)
+        {
+            ticketId = Guid.NewGuid().ToString();
+            this.carName = carName;
+        }
+
+        public string CarName => carName;
+        public ParkingTIcketsStatus Status { get; set; }
+        public string TicketId
+        {
+            get { return ticketId; }
+        }
     }
 }
