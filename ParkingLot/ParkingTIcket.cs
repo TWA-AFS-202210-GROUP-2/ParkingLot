@@ -1,27 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingLot
 {
     public class ParkingTicket
     {
-        private string ticketId;
-        private string carName;
+        private string parkingTime = default(DateTime).ToShortTimeString();
+        private string carPlateNumber;
+        private Parkinglot parkingLot;
+        private bool isUsed = false;
 
-        public ParkingTicket(string carName)
+        public ParkingTicket(string parkedCarPlateNumber, Parkinglot parkingLotObject)
         {
-            ticketId = Guid.NewGuid().ToString();
-            this.carName = carName;
+            this.carPlateNumber = parkedCarPlateNumber;
+            this.parkingLot = parkingLotObject;
         }
 
-        public string CarName => carName;
-        public ParkingTIcketsStatus Status { get; set; }
-        public string TicketId
+        public string GetParkingTime()
         {
-            get { return ticketId; }
+            return this.parkingTime;
+        }
+
+        public string GetCarPlateNumber()
+        {
+            return this.carPlateNumber;
+        }
+
+        public Parkinglot GetParkingLot()
+        {
+            return this.parkingLot;
+        }
+
+        public bool GetIsUsed()
+        {
+            return this.isUsed;
+        }
+
+        public void UseTicket()
+        {
+            this.isUsed = true;
         }
     }
 }

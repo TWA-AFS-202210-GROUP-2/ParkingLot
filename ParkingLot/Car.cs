@@ -8,15 +8,16 @@ namespace ParkingLot
 {
     public class Car
     {
-        private readonly string carName;
-        public Car(string carName)
+        private readonly string plateNumber;
+
+        public Car(string carPlateNumber)
         {
-            this.carName = carName;
+            this.plateNumber = carPlateNumber;
         }
 
-        public string CarName
+        public string GetPlateNumber()
         {
-            get { return carName; }
+            return this.plateNumber;
         }
     }
 }

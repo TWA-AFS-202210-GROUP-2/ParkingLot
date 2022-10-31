@@ -1,40 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingLot
 {
     public class ParkingBoy
     {
         private string name;
-        private Parkinglot parkinglot;
-
-        public ParkingBoy(string name, Parkinglot parkinglot)
+        private string manager = string.Empty;
+        private Dictionary<string, ParkingTicket> providedParkingTickets = new Dictionary<string, ParkingTicket>();
+        public ParkingBoy(string inputName, Parkinglot parkingLot1, Parkinglot parkingLot2)
         {
-            this.name = name;
-            this.parkinglot = parkinglot;
+            this.name = inputName;
+            ManagedParkingLots.Add(parkingLot1);
+            ManagedParkingLots.Add(parkingLot2);
         }
 
-        public ParkingTicket ParkCar(Car car)
+        public List<Parkinglot> ManagedParkingLots { get; private set; } = new List<Parkinglot>();
+
+        public ParkingTicket Park(Car car)
         {
-            return parkinglot.AddCar(car);
+            Printer printer = new Printer();
+            if (car == null)
+            {
+                printer.PrintNullCarErrorMessage();
+                return null;
+            }
+
+            ParkingTicket parkingTicket = null;
+            foreach (var parkingLot in ManagedParkingLots)
+            {
+                parkingTicket = parkingLot.Park(car);
+                if (parkingTicket == null)
+                {
+                    continue;
+                }
+
+                UpdateProvidedParkingTicket(parkingTicket);
+                break;
+            }
+
+            return parkingTicket;
         }
 
-        public Car GetCar(ParkingTicket ticket)
+        public Car Fetch(ParkingTicket parkingTicket)
         {
-            return parkinglot.GetCar(ticket);
+            Printer printer = new Printer();
+            if (parkingTicket == null)
+            {
+                printer.PrintMissingParkingTicketErrorMessage();
+                return null;
+            }
+
+            if (!IsProvidedParkingTicket(parkingTicket) || parkingTicket.GetIsUsed())
+            {
+                printer.PrintWrongParkingTicketErrorMessage();
+                return null;
+            }
+
+            Car fetchedCar = parkingTicket.GetParkingLot().Fetch(parkingTicket);
+            if (fetchedCar != null)
+            {
+                parkingTicket.UseTicket();
+            }
+
+            UpdateProvidedParkingTicket(parkingTicket);
+            return fetchedCar;
         }
 
-        public List<Car> GetMultipleCars(List<ParkingTicket> tickets)
+        public void SetManager(string assignedManager)
         {
-            return parkinglot.GetCars(tickets);
+            this.manager = assignedManager;
         }
 
-        public List<ParkingTicket> ParkMultipleCars(List<Car> cars)
+        public string GetManager()
         {
-            return parkinglot.AddCars(cars);
+            return this.manager;
+        }
+
+        public void SetParkingLots(List<Parkinglot> assignedParkingLotsparkingLots)
+        {
+            this.ManagedParkingLots = assignedParkingLotsparkingLots;
+        }
+
+        protected void UpdateProvidedParkingTicket(ParkingTicket parkingTicket)
+        {
+            this.providedParkingTickets.TryAdd(parkingTicket.GetParkingTime(), parkingTicket);
+        }
+
+        private bool IsProvidedParkingTicket(ParkingTicket parkingTicket)
+        {
+            return this.providedParkingTickets.ContainsKey(parkingTicket.GetParkingTime());
         }
     }
 }

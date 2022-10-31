@@ -1,92 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.Design;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingLot
 {
     public class Parkinglot
     {
         private string name;
-        private List<ParkingTicket> tickets = new List<ParkingTicket>();
-        private List<Car> cars = new List<Car>();
-        public Parkinglot(string name)
+        private int capacity = 10;
+        private Dictionary<string, Car> cars = new Dictionary<string, Car>();
+        private bool hasPosition = true;
+
+        public Parkinglot(string inputName)
         {
-            this.name = name;
+            this.name = inputName;
         }
 
-        public List<ParkingTicket> Tickets
+        public ParkingTicket Park(Car car)
         {
-            get { return tickets; } set { tickets = value; }
-        }
-
-        public List<Car> Cars
-        {
-            get { return cars; }
-        }
-
-        public int Capacity { get; set; } = 10;
-
-        public ParkingTicket AddCar(Car car)
-        {
-            if (cars.Count < Capacity)
+            if (!this.hasPosition)
             {
-                cars.Add(car);
-                var ticket = new ParkingTicket(car.CarName);
-                tickets.Add(ticket);
-                return ticket;
-            }
-            else
-            {
+                Printer printer = new Printer();
+                printer.PrintNoEnoughPositionInParkingLotErrorMessage();
                 return null;
             }
+
+            if (this.cars.TryAdd(car.GetPlateNumber(), car))
+            {
+                UpdateUsageCondition();
+                return GenerateParkingTicket(car);
+            }
+
+            return null;
         }
 
-        public Car GetCar(ParkingTicket ticket)
+        public Car Fetch(ParkingTicket parkingTicket)
         {
-            if (!tickets.Contains(ticket) || ticket.Status != ParkingTIcketsStatus.SendOut)
+            if (cars.ContainsKey(parkingTicket.GetCarPlateNumber()))
             {
-                return null;
+                return cars[parkingTicket.GetCarPlateNumber()];
             }
-            else
-            {
-                ticket.Status = ParkingTIcketsStatus.Used;
-                return cars.FindLast(car => car.CarName == ticket.CarName);
-            }
+
+            return null;
         }
 
-        public List<ParkingTicket> AddCars(List<Car> carsInput)
+        public Dictionary<string, Car> GetCars()
         {
-            int outOfCapacityCarCount = cars.Count + carsInput.Count - Capacity;
-            if (outOfCapacityCarCount <= 0)
-            {
-                var newcars = cars.Concat(carsInput).ToList();
-                cars = newcars;
-                var ticketsOutput = carsInput.Select(item => new ParkingTicket(item.CarName)).ToList();
-                return ticketsOutput;
-            }
-            else if (outOfCapacityCarCount > 0)
-            {
-                carsInput.RemoveRange(carsInput.Count - outOfCapacityCarCount, outOfCapacityCarCount);
-                cars.Concat(carsInput);
-                List<ParkingTicket> ticketsOutput = carsInput.Select(item => new ParkingTicket(item.CarName)).ToList();
-                return ticketsOutput.ToList();
-            }
-            else
-            {
-                return null;
-            }
+            return cars;
         }
 
-        public List<Car> GetCars(List<ParkingTicket> ticketsInput)
+        public int GetCapacity()
         {
-            var outPutCars = from aTicket in ticketsInput
-                             from aCar in cars
-                             where aCar.CarName == aTicket.CarName
-                             where aTicket.Status == ParkingTIcketsStatus.SendOut
-                             select aCar;
-            return outPutCars.ToList();
+            return capacity;
+        }
+
+        private void UpdateUsageCondition()
+        {
+            this.hasPosition = cars.Count < this.capacity;
+        }
+
+        private ParkingTicket GenerateParkingTicket(Car car)
+        {
+            return new ParkingTicket(car.GetPlateNumber(), this);
         }
     }
 }
